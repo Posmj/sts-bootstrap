@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout">
+
+<head th:replace="fragments/head :: headFragment">
+   <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">spring-boot</title>
+</head>
+
+<body class="d-flex flex-column">
+    <main class="flex-shrink-0">
+        <header th:replace="fragments/header :: headerFragment"></header>
+        <div layout:fragment="content"></div>
+    </main>
+    <footer th:replace="fragments/footer :: footerFragment"></footer>
+        
+</body>
+</html>
