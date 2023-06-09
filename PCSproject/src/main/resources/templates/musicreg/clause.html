@@ -1,0 +1,41 @@
+<div  class="userInfo" th:if=${session.id}>
+	<span th:text="${session.macAddress}"></span><span>/ </span>
+    <span th:text="${session.id}"></span><span> 님 / </span>
+    <span th:text="${session.mbLevel}"></span><span> 레벨</span>
+    <button type="button">
+        <a th:href="@{logout}" style="color: #fff">로그아웃</a>
+    </button>
+</div>
+
+<div class="title" style="color:#00a2be">음악 등록 게시판</div>
+<form role="form" action="musicupload" method="post" enctype="multipart/form-data">
+    <div class="section form">
+       <table>
+        <colgroup>
+            <col style="width:10%"/>
+            <col style="width:90%"/>
+        </colgroup>
+        <tbody>
+            <tr> 
+                <th>음악 정보 입력</th>
+                <td>
+			        <input type="text" id="title" name="title" placeholder="제목" required><br><br>
+			        <input type="text" id="artist" name="artist" placeholder="가수" required><br><br>
+			        <input type="text" id="genre" name="genre" placeholder="장르" required><br><br>
+                    <input type="hidden" name="seq" placeholder="글번호" required/>
+                </td>
+            </tr>
+            <tr> 
+               <th><label for="file">첨부파일</label></th>
+                <td>
+                    <input type="file" id="file" name="musicfiles" multiple />
+                </td>
+            </tr>
+        </tbody>
+       </table>
+       <div class="button">
+            <button type="submit" value = "musicupload" style="margin-right: 11px">글쓰기</button>
+       </div>
+    </div>
+
+</form>

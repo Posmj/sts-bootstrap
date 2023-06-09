@@ -1,0 +1,43 @@
+<div  class="userInfo" th:if=${session.id}>
+	<span th:text="${session.macAddress}"></span><span>/ </span>
+    <span th:text="${session.id}"></span><span> 님 / </span>
+    <span th:text="${session.mbLevel}"></span><span> 레벨</span>
+    <button type="button">
+        <a th:href="@{logout}" style="color: #fff">로그아웃</a>
+    </button>
+</div>
+
+<div class="title" style="color:#00a2be">음악 등록 게시판</div>
+<form role="form" th:object=${musicVO} th:action="@{musiceditSave}" method="post" enctype="multipart/form-data">
+    <div class="section form">
+       <table>
+        <colgroup>
+            <col style="width:10%"/>
+            <col style="width:90%"/>
+        </colgroup>
+        <tbody>
+            <tr> 
+	            <th>음악 정보 입력</th>
+                <td>
+                    <input type="hidden" th:field="*{seq}" />
+                    <input type="hidden" th:field="*{isEdit}"/>
+                    <input type="text" th:field="*{title}" placeholder="제목" required/>
+                    <input type="text" id="artist" name="artist" placeholder="가수" required>
+			        <input type="text" id="genre" name="genre" placeholder="장르" required>
+                </td>
+            </tr>
+            <tr> 
+               <th><label for="file">첨부파일</label></th>
+                <td>
+                    <input type="file" id="file" name="musicfiles" multiple />
+                    <span style="color: #00a2be" th:text="'*새로 파일첨부시 기존 파일은 삭제됩니다.(첨부된 파일 : '+ ${fileLen} + '개)'"></span>
+                </td>
+            </tr>
+        </tbody>
+       </table>
+       <div class="button">
+            <button type="submit" value = "musicedit" style="margin-right: 11px">내용수정</button>
+       </div>
+    </div>
+
+</form>

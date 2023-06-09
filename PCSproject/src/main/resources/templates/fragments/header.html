@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <header th:fragment="headerFragment">
+       <div class="lnb">
+           <div class="logo">
+                <a th:href="@{bdList}"> <span>SpringBoot</span> <span>Music_Library</span></a>
+           </div>
+           
+           <div class="useInfo">
+               <span>ParkSoonil</span>
+           </div>
+           
+           <ul class="nav">
+                <th:block>
+                   <li class="on"><a class="menu1" th:href="@{music_reg}">음악등록게시판</a></li>
+               </th:block>
+                <th:block>
+                   <li class="on"><a class="menu1" th:href="@{music_req}">음악신청게시판</a></li>
+               </th:block>
+                <th:block>
+                   <li class="on"><a class="menu1" th:href="@{music_rev}">음악리뷰게시판</a></li>
+               </th:block>
+                 <th:block>
+<!--               <th:block th:if="${session.mbLevel}==3"> 쿼리스트링보내기-->
+                   <li class="on"><a class="menu1" th:href="@{mbList(page=1)}">맴버정보</a></li>
+               </th:block>
+               <th:block>
+                   <li class="on"><a class="menu1" th:href="@{bdList}">전체게시판</a></li>
+               </th:block>
+               <th:block>
+                   <li class="on"><a class="menu1" th:href="@{mybdList}">내음악정보</a></li>
+               </th:block>
+           </ul>
+       </div>
+    </header>
+</html>

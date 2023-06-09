@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.co.kr.mapper.MyUploadMapper">
+
+	<!--select all-->
+	<select id="boardList" resultType="com.co.kr.domain.MyBoardListDomain">
+	  SELECT bd_seq, mb_id, bd_title, bd_content, bd_create_at, bd_update_at
+	  FROM pcs.myboard order by bd_update_at desc
+	</select>
+	
+	<!-- content insert -->
+	<insert id="contentUpload" parameterType="com.co.kr.domain.MyBoardContentDomain"
+	useGeneratedKeys="true"
+        keyProperty="bdSeq" keyColumn="bd_seq">
+	
+        INSERT INTO pcs.myboard (
+            mb_id,   
+						bd_title,                         
+						bd_content  
+        )
+        VALUES (
+            #{mbId},
+            #{bdTitle},
+            #{bdContent}
+        )
+	</insert>
+	
+	<!-- file insert -->
+	<insert id="fileUpload" parameterType="com.co.kr.domain.MyBoardFileDomain">
+        INSERT INTO pcs.myfiles (
+            bd_seq,
+            mb_id,   
+            up_original_file_name,                         
+            up_new_file_name,                      
+            up_file_path,                                   
+            up_file_size
+        )
+        VALUES (
+            #{bdSeq},
+            #{mbId},
+            #{upOriginalFileName},
+            #{upNewFileName},
+            #{upFilePath},
+            #{upFileSize}
+        )
+    </insert>
+
+		<!-- Content update -->
+    <update id="bdContentUpdate" parameterType="com.co.kr.domain.MyBoardContentDomain">
+        UPDATE pcs.myboard SET
+                bd_seq=#{bdSeq},
+                mb_id=#{mbId},
+                bd_title=#{bdTitle},
+                bd_content=#{bdContent}, 
+                bd_update_at=now()  
+        WHERE bd_seq=#{bdSeq}
+    </update>
+
+    <!-- file update -->
+    <update id="bdFileUpdate" parameterType="com.co.kr.domain.MyBoardFileDomain">
+        UPDATE pcs.myfiles SET
+                bd_seq=#{bdSeq},
+                mb_id=#{mbId},
+                up_original_file_name=#{upOriginalFileName},
+                up_new_file_name=#{upNewFileName}, 
+                up_file_path=#{upFilePath},
+                up_file_size=#{upFileSize}
+        WHERE bd_seq=#{bdSeq}
+    </update>
+
+	<!-- Content delete -->
+    <delete id="bdContentRemove" parameterType="hashMap">
+       DELETE FROM pcs.myboard WHERE bd_seq=#{bdSeq}
+    </delete>
+	<!-- file delete -->
+    <delete id="bdFileRemove" parameterType="com.co.kr.domain.MyBoardFileDomain">
+	    DELETE FROM pcs.myfiles WHERE up_new_file_name = #{upNewFileName}
+	</delete>
+	
+	<!-- content -->
+	<select id="boardSelectOne" resultType="com.co.kr.domain.MyBoardListDomain" parameterType="map">
+    	SELECT bd_seq, mb_id, bd_title, bd_content, bd_create_at, bd_update_at
+    	FROM pcs.myboard where bd_seq = #{bdSeq}
+	</select>
+
+	<!-- file -->
+	<select id="boardSelectOneFile" resultType="com.co.kr.domain.MyBoardFileDomain" parameterType="map">
+    	SELECT bd_seq, mb_id, up_original_file_name, up_new_file_name, up_file_path, up_file_size
+    	FROM pcs.view_myboard where bd_seq = #{bdSeq}
+	</select>
+	
+</mapper>

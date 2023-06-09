@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+                        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.co.kr.mapper.MusicMapper">
+
+	<!--select all-->
+	<select id="musicList" resultType="com.co.kr.domain.MusicListDomain">
+	  SELECT bd_seq, mb_id, title, artist, genre, created_at, updated_at
+	  FROM pcs.music order by updated_at desc
+	</select>
+	
+	<!-- content insert -->
+	<insert id="musiccontentUpload" parameterType="com.co.kr.domain.MusicContentDomain"
+	useGeneratedKeys="true"
+        keyProperty="bdSeq" keyColumn="bd_seq">
+	
+        INSERT INTO pcs.music (
+            mb_id,title,artist,genre
+        )
+        VALUES (
+            #{mbId},
+            #{Title},
+            #{Artist},
+            #{Genre}
+        )
+	</insert>
+	
+	<!-- file insert -->
+	<insert id="musicfileUpload" parameterType="com.co.kr.domain.MusicFileDomain">
+        INSERT INTO pcs.files (
+            bd_seq,
+            mb_id,   
+            up_original_file_name,                         
+            up_new_file_name,                      
+            up_file_path,                                   
+            up_file_size
+        )
+        VALUES (
+            #{bdSeq},
+            #{mbId},
+            #{upOriginalFileName},
+            #{upNewFileName},
+            #{upFilePath},
+            #{upFileSize}
+        )
+    </insert>
+
+		<!-- Content update -->
+    <update id="musicContentUpdate" parameterType="com.co.kr.domain.MusicContentDomain">
+        UPDATE pcs.music SET
+                bd_seq=#{bdSeq},
+                mb_id=#{mbId},
+                title=#{Title},
+                artist=#{Artist},
+                genre=#{Genre}, 
+                updated_at=now()  
+        WHERE bd_seq=#{bdSeq}
+    </update>
+
+    <!-- file update -->
+    <update id="musicFileUpdate" parameterType="com.co.kr.domain.MusicFileDomain">
+        UPDATE pcs.files SET
+                bd_seq=#{bdSeq},
+                mb_id=#{mbId},
+                up_original_file_name=#{upOriginalFileName},
+                up_new_file_name=#{upNewFileName}, 
+                up_file_path=#{upFilePath},
+                up_file_size=#{upFileSize}
+        WHERE bd_seq=#{bdSeq}
+    </update>
+
+	<!-- Content delete -->
+    <delete id="musicContentRemove" parameterType="hashMap">
+       DELETE FROM pcs.music WHERE bd_seq=#{bdSeq}
+    </delete>
+	<!-- file delete -->
+    <delete id="musicFileRemove" parameterType="com.co.kr.domain.MusicFileDomain">
+	    DELETE FROM pcs.files WHERE up_new_file_name = #{upNewFileName}
+	</delete>
+	
+	<!-- content -->
+	<select id="musicSelectOne" resultType="com.co.kr.domain.MusicListDomain" parameterType="map">
+    	SELECT bd_seq,mb_id,title,artist,genre,created_at,updated_at
+    	FROM pcs.music where bd_seq = #{bdSeq}
+	</select>
+
+	<!-- file -->
+	<select id="musicSelectOneFile" resultType="com.co.kr.domain.MusicFileDomain" parameterType="map">
+    	SELECT bd_seq, mb_id,title,artist,created_at,updated_at,genre,up_original_file_name, up_new_file_name, up_file_path, up_file_size
+    	FROM pcs.view_music where bd_seq = #{bdSeq}
+	</select>
+	
+</mapper>
